@@ -47,6 +47,21 @@ function isPerfect(n) {
     return sum === n;
 }
 
+function sumOfDigits(n) {
+    // Convert n to its absolute value to handle negative numbers.
+    n = Math.abs(n);
+    
+    let sum = 0;
+    // Process each digit until n becomes 0.
+    while (n > 0) {
+      // Get the last digit by taking the remainder when divided by 10.
+      sum += n % 10;
+      // Remove the last digit.
+      n = Math.floor(n / 10);
+    }
+    return sum;
+  }
+
 
 app.get("/api/classify-number", async (req, res) => {
 
@@ -68,7 +83,7 @@ app.get("/api/classify-number", async (req, res) => {
             "is_prime": isPrime(number),
             "is_perfect": isPerfect(number),
             "properties": ["armstrong", "odd"],
-            "digit_sum": 11,  // sum of its digits
+            "digit_sum": sumOfDigits(number),  // sum of its digits
             "fun_fact": response.data
             // "fun_fact": "371 is an Armstrong number because 3^3 + 7^3 + 1^3 = 371" //gotten from the numbers API
         });
