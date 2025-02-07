@@ -28,21 +28,23 @@ function isPrime(n) {
 function isPerfect(n) {
     // Perfect numbers are positive integers greater than 1.
     if (n <= 1) return false;
-  
+
     let sum = 1; // Start with 1 since 1 is always a divisor (for n > 1)
-  
+
     // Loop from 2 up to the square root of n.
     // If i divides n, then n/i is also a divisor.
     for (let i = 2; i <= Math.sqrt(n); i++) {
-      if (n % i === 0) {
-        sum += i;
-        const complement = n / i;
-        // Avoid adding the same divisor twice for perfect squares.
-        if (complement !== i) {
-          sum += complement;
+        if (n % i === 0) {
+            sum += i;
+            const complement = n / i;
+            // Avoid adding the same divisor twice for perfect squares.
+            if (complement !== i) {
+                sum += complement;
+            }
         }
-      }
     }
+
+    return sum === n;
 }
 
 
@@ -57,25 +59,26 @@ app.get("/api/classify-number", async (req, res) => {
         });
 
     else {
-        try {
-            const response = await axios.get(externalApi(number));
-            console.log(response.data);
+    try {
+        const response = await axios.get(externalApi(number));
+        // console.log(response.data);
 
-            res.status(200).json({
-                "number": number,
-                "is_prime": isPrime(number),
-                "is_perfect": isPerfect(number),
-                "properties": ["armstrong", "odd"],
-                "digit_sum": 11,  // sum of its digits
-                "fun_fact": response
-                // "fun_fact": "371 is an Armstrong number because 3^3 + 7^3 + 1^3 = 371" //gotten from the numbers API
-            });
-        } catch (err) {
-            res.status(400).json({
-                "number": "alphabet",
-                "error": true
-            });
-        }
+        res.status(200).json({
+            "number": number,
+            "is_prime": isPrime(number),
+            "is_perfect": isPerfect(number),
+            "properties": ["armstrong", "odd"],
+            "digit_sum": 11,  // sum of its digits
+            "fun_fact": response.data
+            // "fun_fact": "371 is an Armstrong number because 3^3 + 7^3 + 1^3 = 371" //gotten from the numbers API
+        });
+    } catch (err) {
+        console.log(err)
+        res.status(400).json({
+            "number": "alphabet",
+            "error": true
+        });
+    }
     }
 });
 
