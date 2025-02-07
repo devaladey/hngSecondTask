@@ -50,7 +50,7 @@ app.get("/api/classify-number", async (req, res) => {
 
     const number = req.query.number;
 
-    if (typeof parseInt(number) !== "number")
+    if (!parseInt(number))
         return res.status(400).json(400).json({
             "number": "alphabet",
             "error": true
