@@ -65,7 +65,7 @@ function sumOfDigits(n) {
 
 app.get("/api/classify-number", async (req, res) => {
 
-    const number = req.query.number;
+    const number = req.query.number || req.body.number;
 
     if (!parseInt(number))
         return res.status(400).json(400).json({
